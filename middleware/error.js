@@ -1,9 +1,9 @@
 const ErrorResponse = require("../utils/errorResponse");
 
 const errorHandler = (err, req, res, next) => {
-    let error={ ...err }
+    let error = { ...err }
 
-    error.message= err.message;
+    error.message = err.message;
 
     //Log to console for dev
     console.log(err);
@@ -16,8 +16,8 @@ const errorHandler = (err, req, res, next) => {
     // Mongoose duplicate key
     if (err.code === 11000) {
         const message = 'Duplicate feild value entered';
-        error = new ErrorResponse(message,400);
-        
+        error = new ErrorResponse(message, 400);
+
     }
     // Moongoose validation error
     if (err.name === 'ValidationError') {
@@ -25,7 +25,7 @@ const errorHandler = (err, req, res, next) => {
         error = new ErrorResponse(message, 400);
     }
 
-    res.status(error.statusCode || 500 ).json({
+    res.status(error.statusCode || 500).json({
         success: false,
         error: error.message || 'Server Error'
     });
